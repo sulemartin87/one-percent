@@ -24,7 +24,12 @@
   <script type="module">
 
     import { createApp } from 'https://unpkg.com/petite-vue?module'
-    const data = JSON.parse(localStorage.tasks);
+    let data  = [];
+    try {
+      data = JSON.parse(localStorage.tasks);
+    } catch (error) {
+      
+    }
     createApp({
       // exposed to all expressions
       list: data,
