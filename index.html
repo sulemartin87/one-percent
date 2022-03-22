@@ -85,6 +85,20 @@
        this.list[this.activeItem].dates.push(this.goalDate);
        this.goalDate = null;
        this.updateStorage(); 
+      },
+      deleteGoal(index) {
+        this.list[this.activeItem].dates.splice(index, 1);
+        this.updateStorage();
+      },
+      calculateGoal(goal, index) {
+       let val = parseInt(goal);
+       for (let ind = 0; ind < index; ind++) {
+        val = this.getGoal(val, index); 
+       }
+       return Math.round(val);
+      },
+      getGoal(goal, index) {
+        return goal + ((goal + index) * 0.01)
       }
 
     }).mount()
@@ -156,13 +170,15 @@
            <td>Date</td>
            <td>Goal</td>
            <td>Next Goal</td>
+           <td>Action</td>
          </tr>
        </thead>
        <tbody>
-         <tr v-for="date in list[activeItem].dates">
+         <tr v-for="(date, index) in list[activeItem].dates">
            <td>{{date}}</td>
-           <td>{{list[activeItem].goal}}</td>
-           <td>{{list[activeItem].goal + 1}}</td>
+           <td>{{calculateGoal(list[activeItem].goal, index)}}</td>
+           <td>{{calculateGoal(list[activeItem].goal, index + 1)}}</td>
+           <td><button class="btn btn-danger" @click="deleteGoal(index)">x</button></td>
          </tr>
        </tbody>
 </table> 
